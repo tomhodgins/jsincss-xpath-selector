@@ -19,6 +19,7 @@ export default (selector, rule) => {
   return tags.reduce((styles, tag, count) => {
 
      const attr = selector.replace(/\W/g, '')
+
      styles += `[data-xpath-${attr}="${count}"] { ${rule} }\n`
      tag.setAttribute(`data-xpath-${attr}`, count)
      count++
