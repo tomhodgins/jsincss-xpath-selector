@@ -1,16 +1,14 @@
 export default (selector, rule) => {
 
-  let styles = ''
-  let count = 0
-
   const tags = []
+
   const result = document.evaluate(
-                   selector,
-                   document,
-                   null,
-                   XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
-                   null
-                 )
+    selector,
+    document,
+    null,
+    XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
+    null
+  )
 
   for (let i=0; i < result.snapshotLength; i++) {
 
@@ -18,16 +16,15 @@ export default (selector, rule) => {
 
   }
 
-  tags.forEach(tag => {
+  return tags.reduce((styles, tag, count) => {
 
-    const attr = selector.replace(/\W/g, '')
+     const attr = selector.replace(/\W/g, '')
+     styles += `[data-xpath-${attr}="${count}"] { ${rule} }\n`
+     tag.setAttribute(`data-xpath-${attr}`, count)
+     count++
 
-    tag.setAttribute(`data-xpath-${attr}`, count)
-    styles += `[data-xpath-${attr}="${count}"] { ${rule} }\n`
-    count++
+     return styles
 
-  })
-
-  return styles
+   }, '')
 
 }
