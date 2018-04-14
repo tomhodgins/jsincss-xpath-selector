@@ -1,6 +1,6 @@
 {
   "name": "jsincss-xpath-selector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An XPath selector plugin for jsincss",
   "main": "index.js",
   "scripts": {
