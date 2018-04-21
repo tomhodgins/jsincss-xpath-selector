@@ -1,4 +1,4 @@
-module.exports = (selector, rule) => {
+function xpath(selector, rule) {
 
   const tags = []
  

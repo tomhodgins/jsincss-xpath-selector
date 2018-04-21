@@ -1,4 +1,4 @@
-module.exports = (selector, rule) => {
+export default (selector, rule) => {
 
   const tags = []
  
