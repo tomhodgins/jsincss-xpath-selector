@@ -23,8 +23,6 @@ function xpath(selector, rule) {
 
       tag.setAttribute(`data-xpath-${attr}`, count)
       styles += `[data-xpath-${attr}="${count}"] { ${rule} }\n`
-      count++
-
       return styles
 
     }, '')
