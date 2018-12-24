@@ -1,30 +1,23 @@
 function xpath(selector, rule) {
-
+  const attr = selector.replace(/\W/g, '')
   const tags = []
-  const result = document.evaluate(
+  const query = document.evaluate(
     selector,
     document,
     null,
     XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
     null
   )
-
-  for (let i=0; i < result.snapshotLength; i++) {
-
-    tags.push(result.snapshotItem(i))
-
+  for (let i=0; i < query.snapshotLength; i++) {
+    tags.push(query.snapshotItem(i))
   }
-
-  return tags
-
-    .reduce((styles, tag, count) => {
-
-      const attr = selector.replace(/\W/g, '')
-
-      tag.setAttribute(`data-xpath-${attr}`, count)
-      styles += `[data-xpath-${attr}="${count}"] { ${rule} }\n`
-      return styles
-
-    }, '')
-
+  const result = tags
+    .reduce((output, tag, count) => {
+      output.add.push({tag: tag, count: count})
+      output.styles.push(`[data-xpath-${attr}="${count}"] { ${rule} }`)
+      return output
+    }, {add: [], remove: [], styles: []})
+  result.add.forEach(tag => tag.tag.setAttribute(`data-xpath-${attr}`, tag.count))
+  result.remove.forEach(tag => tag.setAttribute(`data-xpath-${attr}`, ''))
+  return result.styles.join('\n')
 }
